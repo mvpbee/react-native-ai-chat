@@ -160,16 +160,22 @@ interface ChatMessage {
   content: string;
   sender: Sender;
 }
+
+export type Sender = "user" | "ai";
 ```
 
 Each of `chatId`, `message` or `messages` can be disabled from sending via the component props.
 
 ## Response
 
-The response expected is simply be the last message from the AI as a `string`.
+The response expected is simply the last message from the AI as a `string`.
 
 ## Examples
 
 Current backend examples available:
 
 - OpenAI + Express
+
+# Testing
+
+Coming Soon™
