@@ -4,13 +4,15 @@ An unopinionated, highly customizeable AI Chat component for React Native.
 
 Easily add an AI chat experience to your app in 1 line of code.
 
+_\* Backend is required. Examples available in the examples directory_
+
 ## Installation
 
-`$ npm install react-native-ai-chat --save`
+$ `npm install react-native-ai-chat --save`
 
 or
 
-`$ yarn add react-native-ai-chat`
+$ `yarn add react-native-ai-chat`
 
 ## Usage
 
@@ -22,6 +24,27 @@ import { AiChat } from "react-native-ai-chat";
 function App() {
   <>
     <AiChat apiUrl="http://192.168.1.120:5000/chat" />
+  </>;
+}
+```
+
+### UI Components
+
+You can use components from
+
+```typescript
+import { AiChat } from "react-native-ai-chat";
+import { Avatar, Button, TextInput, Message } from "ui-component-library";
+
+function App() {
+  <>
+    <AiChat
+      apiUrl="http://192.168.1.120:5000/chat"
+      AvatarComponent={Avatar}
+      ButtonComponent={Button}
+      MessageComponent={Message}
+      TextInputComponent={(props) => <TextInput extraProp={false} {...props} />}
+    />
   </>;
 }
 ```
@@ -112,3 +135,41 @@ interface AiChatProps {
   textInputProps?: React.ComponentProps<typeof TextInput>;
 }
 ```
+
+# Backend
+
+A backend is required to use this component.
+
+The backend can make a call to any AI service and return the response to the component.
+
+## Request
+
+The backend is called via `XMLHttpRequest` with a `POST` method matching the following interface for the post body:
+
+```typescript
+interface ApiRequestBody {
+  // Id of the current chat (can be used to sync data with the backend)
+  chatId?: string;
+  // Message string of the last message typed
+  message?: string;
+  // Messages array of all messages between user an AI from oldest to newest
+  messages?: ChatMessage[];
+}
+
+interface ChatMessage {
+  content: string;
+  sender: Sender;
+}
+```
+
+Each of `chatId`, `message` or `messages` can be disabled from sending via the component props.
+
+## Response
+
+The response expected is simply be the last message from the AI as a `string`.
+
+## Examples
+
+Current backend examples available:
+
+- OpenAI + Express
