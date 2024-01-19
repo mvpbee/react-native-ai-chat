@@ -35,7 +35,7 @@ app.post("/chat", async (req: Request, res: Response) => {
   if (chatId) {
     /* Load/update messages saved in the backend against the chatId */
     // chatMessages = [...chatMessages, ...(await loadMessages(chatId))];
-  } else if (messages) {
+  } else if (messages?.length) {
     chatMessages = [
       ...chatMessages,
       ...messages.map(
